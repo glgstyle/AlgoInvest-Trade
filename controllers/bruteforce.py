@@ -9,16 +9,19 @@ class BruteForce:
         self.actions = []
     
     def recordActions(self):
+        '''Extracting datas from actions csv data folder
+           converting in Action objects and return them.'''
         with open('datas/actions.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=';')
             # skip the header
             next(reader, None)
             for action in reader:
-                # print(row)
                 act = Action(action[0], action[1], action[2])
                 self.actions.append(act)
-            print(self.actions)
+            # print(self.actions)
+        return self.actions
 
+    
 # Tant que somme des actions est inférieur à 500:
 #     somme des actions
 #     calcul du rendement(cost * %benefices)
