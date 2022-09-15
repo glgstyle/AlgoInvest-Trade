@@ -45,10 +45,3 @@ class Action:
     # return the action if it's in a list
     def __repr__(self):
         return self.__str__()
-
-    def addAction(name, cost, profit):
-        action = Action()
-        action.name = name
-        action.cost = cost
-        action.profit = profit
-        return action
