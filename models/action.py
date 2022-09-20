@@ -40,7 +40,7 @@ class Action:
 
     # return the name instead of action.object
     def __str__(self):
-        return self.name
+        return self.name + ", " + self.cost
 
     # return the action if it's in a list
     def __repr__(self):
