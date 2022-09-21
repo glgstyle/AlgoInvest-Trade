@@ -1,10 +1,9 @@
 '''The brute brute force controller'''
-from itertools import chain, product
-from math import nextafter
+import sys
 from models.action import Action
 import csv
 liste=[ ('a',10),('b',20),('c',10),('d',40)]
-actions = [1,2,3,4]
+actions = [1,2,3,4, 5, 6]
 class BruteForce:
     def __init__(self):
         '''Has a list of actions and a view'''
@@ -18,10 +17,11 @@ class BruteForce:
             # skip the header
             next(reader, None)
             for action in reader:
-                act = Action(action[0], action[1], action[2])
+                act = Action(action[0], action[1], action[2].replace("%", ""))
                 self.actions.append(act)
             # print(self.actions)
-        return self.actions
+            return self.actions
+
 
     # def bruteForce(self,actions, selection=[]):
     #     # actionsList= []
@@ -79,18 +79,65 @@ class BruteForce:
     # def bruteForce(actions, selection=[]):
 
 
+    # def bruteForce(self, actions, selection=[]):
+    #     for action in actions:
+    #         selection.append(action)
+    #         print(','.join(map(str,selection)))
+    #         if len(selection) == len(actions):
+    #             if len(actions) > 1:
+    #                 popNumber = actions.pop(1)
+    #                 selection=[]
+    #                 self.bruteForce(actions,selection)
+    def getActionCostList(self):
+        actionsList = self.recordActions()
+        actions = []
+        for action in actionsList:
+            actions.append((action.name, action.cost, action.profit))
+        return actions
+
     def bruteForce(self, actions, selection=[]):
-        for action in actions:
-            selection.append(action)
-            print(','.join(map(str,selection)))
-            if len(selection) == len(actions):
-                if len(actions)>1:
-                    actions.pop(1)
-                    selection=[]
-                    self.bruteForce(actions,selection)
+        if len(actions) > 0:
+            first = actions.pop(0)
+            option1 = self.bruteForce(actions.copy(), selection + [first])
+            if len(actions) == 0 and len(selection) == 0:
+                return option1
+            option2 = self.bruteForce(actions.copy(), selection)
+            if option1 != None:
+                print(option1)
+            if option2 != None:
+                print(option2)
+            return option2
+        else:
+            option3 = selection[::-1]
+            option3.sort()
+            # print("option3",option3)
+            total = 0
+            benefits = 0
+            actionsCombos=[]
+            for action in option3:
+                cost = int(action[1])
+                rate = int(action[2])
+                if total + cost < 500:
+                    total = total + cost
+                    benefits = (cost * rate)/100
+                    actionsCombos.append((action[0], benefits))
+            totalBenefit = 0
+            resultBenefits = []
+            for pack in actionsCombos:
+                benefit = pack[1]
+                # print("result1", pack[1])
+                totalBenefit = totalBenefit + benefit
+            resultBenefits.append((totalBenefit, actionsCombos))
+            resultBenefits.sort(reverse=True)
+        print("la meilleur option est : ",resultBenefits[0])
+        return resultBenefits[0]
+                    
 controller = BruteForce()
 # controller.bruteForce(controller.recordActions())
-controller.bruteForce(actions)
+controller.bruteForce(controller.getActionCostList())
+
+
+# controller.bruteForce(actions)
 
 
 # print(controller.actions)
