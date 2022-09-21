@@ -99,43 +99,37 @@ class BruteForce:
         if len(actions) > 0:
             first = actions.pop(0)
             option1 = self.bruteForce(actions.copy(), selection + [first])
-            if len(actions) == 0 and len(selection) == 0:
-                return option1
             option2 = self.bruteForce(actions.copy(), selection)
-            if option1 != None:
-                print(option1)
-            if option2 != None:
-                print(option2)
-            return option2
+            if option1 == None and option2 != None:
+                return option2
+            elif option2 == None and option1 != None:
+                return option1
+            elif option1 == None and option2 == None:
+                return None
+            if option1[1] > option2[1]:
+                return option1
+            else:
+                return option2
         else:
-            option3 = selection[::-1]
-            option3.sort()
-            # print("option3",option3)
             total = 0
             benefits = 0
-            actionsCombos=[]
-            for action in option3:
+            for action in selection:
                 cost = int(action[1])
                 rate = int(action[2])
-                if total + cost < 500:
-                    total = total + cost
-                    benefits = (cost * rate)/100
-                    actionsCombos.append((action[0], benefits))
-            totalBenefit = 0
-            resultBenefits = []
-            for pack in actionsCombos:
-                benefit = pack[1]
-                # print("result1", pack[1])
-                totalBenefit = totalBenefit + benefit
-            resultBenefits.append((totalBenefit, actionsCombos))
-            resultBenefits.sort(reverse=True)
-        print("la meilleur option est : ",resultBenefits[0])
-        return resultBenefits[0]
+                total = total + cost
+                benefits = benefits + (cost * rate)/100
+            # print("total, benefits, selection",total, benefits, selection)
+            if total <= 500:
+                return (total, benefits, selection)
+            else:
+                return None
                     
 controller = BruteForce()
+# appeler le start timer
 # controller.bruteForce(controller.recordActions())
-controller.bruteForce(controller.getActionCostList())
-
+resultat = controller.bruteForce(controller.getActionCostList())
+# appeler la fonction stop timer
+print("resultat :", resultat)
 
 # controller.bruteForce(actions)
 
@@ -150,3 +144,6 @@ controller.bruteForce(controller.getActionCostList())
 
 # Créer un fichier csv pour importer les données que python doit lire et transformer en objet
  
+
+#  calculer le temps avant et après l'execution de bruteforce en ajoutant une librairie 
+# conditionner les 500euros le plus tot possible
