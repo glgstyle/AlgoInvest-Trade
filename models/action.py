@@ -38,7 +38,7 @@ class Action:
 
     # return the name instead of action.object
     def __str__(self):
-        return f'{self.name}, {self.cost}'
+        return f'{self.name}, {self.cost}, {self.profit}'
 
     # return the action if it's in a list
     def __repr__(self):

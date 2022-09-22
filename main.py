@@ -1,14 +1,24 @@
 '''Entry point'''
 
-from controllers.bruteforce import BruteForce
+# from controllers.bruteforce import BruteForce
+from controllers.optimized import Optimized
 from views.view import View
 import time
 
 
 def main():
-    controller = BruteForce()
+    # bruteForce version
+    # controller = BruteForce()
+    # start = time.time()
+    # resultat = controller.bruteForce(controller.recordActions())
+    # end = time.time()
+    # View.showTimeOfExecution(start, end)
+    # View.showThebestActionsCombo(resultat)
+
+    # optimized version
+    controller = Optimized()
     start = time.time()
-    resultat = controller.bruteForce(controller.recordActions())
+    resultat = controller.bruteForce(controller.findBestRateActions())
     end = time.time()
     View.showTimeOfExecution(start, end)
     View.showThebestActionsCombo(resultat)
