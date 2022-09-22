@@ -45,4 +45,8 @@ AlgoInvest&Trade est un programme qui permet d'optimiser des stratégies d'inves
 
 # Utilisation
 
+- Pour démarrer le programme, exécutez simplement la commande suivante :
 
+   ```python main.py```
+
+- Pour valider chaque commande dans le terminal appuyez sur la touche  entrée 
