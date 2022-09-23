@@ -12,15 +12,18 @@ class Optimized:
     def recordActions(self):
         '''Extracting datas from actions csv data folder
            converting in Action objects and return them.'''
+        # with open('datas/dataset1_Python+P7.csv', newline='') as csvfile:
+        # with open('datas/dataset2_Python+P7.csv', newline='') as csvfile:
         with open('datas/actions.csv', newline='') as csvfile:
-            reader = csv.reader(csvfile, delimiter=';')
+            reader = csv.reader(csvfile, delimiter=',')
             # skip the header
             next(reader, None)
             for action in reader:
                 name = action[0]
+                # print(name)
                 cost = action[1]
-                profit = action[2].replace("%", "")
-                act = Action(name, int(cost), int(profit))
+                profit = action[2]
+                act = Action(name, cost, profit)
                 self.actions.append(act)
             return self.actions
 
@@ -34,15 +37,16 @@ class Optimized:
             actionsList.append((action))
         sorted_by_profit = sorted(actionsList, key=lambda x: -x.profit)
         upperHalf = sorted_by_profit[0:int(half)]
+        # print(upperHalf)
         return upperHalf
     
-    def bruteForce(self, actions, selection=[], total=0):
+    def OptimizedBruteForce(self, actions, selection=[]):
         """Look for all combinations of actions and choose
            the one with the best profit."""
         if len(actions) > 0:
             first = actions.pop(0)
-            option1 = self.bruteForce(actions.copy(), selection + [first], total)
-            option2 = self.bruteForce(actions.copy(), selection, total)
+            option1 = self.OptimizedBruteForce(actions.copy(), selection + [first],)
+            option2 = self.OptimizedBruteForce(actions.copy(), selection)
             if option1 is not None and option1[0] <= 500 and option1[1] > option2[1]:
                 return option1
             if option2 is not None and option2[0] <= 500:
@@ -52,6 +56,7 @@ class Optimized:
             else:
                 return option2
         else:
+            total=0
             benefits = 0
             for action in selection:
                 cost = action.cost
@@ -59,10 +64,7 @@ class Optimized:
                 total = total + cost
                 benefits = benefits + (cost * rate)/100
             if total <= 500:
-                return (total, benefits, selection)
+                combo = (total, benefits, selection)
+                return combo
             else:
                 return None
-# optimized = Optimized()
-# actions = optimized.findBestRateActions()
-# print(optimized.bruteForce(actions))
-

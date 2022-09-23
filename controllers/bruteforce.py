@@ -37,7 +37,7 @@ class BruteForce:
                 return option1
             elif option1 is None and option2 is None:
                 return None
-            if option1[1] > option2[1]:
+            elif option1[1] > option2[1]:
                 return option1
             else:
                 return option2

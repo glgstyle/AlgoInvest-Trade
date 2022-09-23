@@ -18,7 +18,7 @@ def main():
     # optimized version
     controller = Optimized()
     start = time.time()
-    resultat = controller.bruteForce(controller.findBestRateActions())
+    resultat = controller.OptimizedBruteForce(controller.findBestRateActions())
     end = time.time()
     View.showTimeOfExecution(start, end)
     View.showThebestActionsCombo(resultat)
