@@ -1,6 +1,5 @@
 '''The optimized version of brute brute force controller'''
 
-from genericpath import exists
 from models.action import Action
 import csv
 
@@ -14,8 +13,8 @@ class Optimized:
         '''Extracting datas from actions csv data folder
            converting in Action objects and return them.'''
         # with open('datas/dataset1_Python+P7.csv', newline='') as csvfile:
-        # with open('datas/dataset2_Python+P7.csv', newline='') as csvfile:
-        with open('datas/actions.csv', newline='') as csvfile:
+        with open('datas/dataset2_Python+P7.csv', newline='') as csvfile:
+        # with open('datas/actions.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',')
             # skip the header
             next(reader, None)
@@ -28,111 +27,48 @@ class Optimized:
                 self.actions.append(act)
             return self.actions
 
-    def findBestRateActions(self):
-        """Look for the best profit actions cut list in two,
-           and return best upper half."""
-        actions = self.recordActions()
-        half = len(actions)/2
-        actionsList = []
-        benefits = 0
-        for action in actions:
-            actionsList.append((action))
-        sorted_by_profit = sorted(actionsList, key=lambda x: -x.profit)
-        upperHalf = sorted_by_profit[0:int(half)]
-        # print(upperHalf)
-        return upperHalf
-    
-    # def OptimizedBruteForce(self, actions, selection=[]):
-    #     """Look for all combinations of actions and choose
-    #        the one with the best profit."""
-    #     if len(actions) > 0:
-    #         first = actions.pop(0)
-    #         option1 = self.OptimizedBruteForce(actions.copy(), selection + [first])
-    #         option2 = self.OptimizedBruteForce(actions.copy(), selection)
-    #         if option1 is not None and option1[0] <= 500 and option1[1] > option2[1]:
-    #             return option1
-    #         if option2 is not None and option2[0] <= 500:
-    #             return option2
-    #         elif option1 is None and option2 is None:
-    #             return None
-    #         else:
-    #             return option2
-    #     else:
-    #         total=0
-    #         benefits = 0
-    #         for action in selection:
-    #             cost = action.cost
-    #             rate = action.profit
-    #             total = total + cost
-    #             benefits = benefits + (cost * rate)/100
-    #         if total <= 500:
-    #             combo = (total, benefits, selection)
-    #             return combo
-    #         else:
-    #             return None
+    def print_matrice(self,matrice,i,j):
+        input("print when "+str (i)+","+str(j))
+        print("-------------------")
+        for row in matrice :
+            print(row)
+    def OptimizedBruteForce(self, wallet, actions):
+        # actions =[("A", 1, 1), ("B", 5, 4), ("C", 2, 1), ("D", 3, 2)]
+        # convert float value to int
+        # wallet = wallet *100
+        # init table
+        matrice = [[0 for x in range(wallet + 1)] for x in range(len(actions) + 1)]
+        # browse actions
+        for row in range(1, len(actions) + 1):
+            for capacity in range(1, wallet + 1):# browse amount wallet  1 2 3 4 5 6 7 8 9 10 jusqu'à 500
+                # keep the max value if it's lower to the wallet
+                if actions[row-1].cost <= capacity and actions[row-1].cost > 0:# actions[0][1] <= 1  the price of action should'nt cost more than capacity
+                    matrice[row][capacity] = max(
+                        int(actions[row-1].profit) + matrice[int(row-1)][int(capacity - actions[row-1].cost)],   
+                        matrice[row-1][capacity])
+                else:
+                    # keep result of previous line if highter
+                    matrice[row][capacity] = matrice[row-1][capacity]
+                # self.print_matrice(matrice,row,capacity)
 
-    # def OptimizedBruteForce(self, actions, selection=[]):
-    #         """Look for all combinations of actions and choose
-    #         the one with the best profit."""
-    #         if len(actions) > 0:
-    #             total = 0
-    #             first = actions.pop(0)
-    #             new_selection = selection + [first]
-    #             for action in new_selection:
-    #                 cost = action.cost
-    #                 total = total + cost
-    #             if total > 500:
-    #                 option1 = None
-    #             else:
-    #                 option1 = self.OptimizedBruteForce(actions.copy(), selection + [first])
-    #             option2 = self.OptimizedBruteForce(actions.copy(), selection)
-    #             if option1 is None and option2 is not None:
-    #                 return option2
-    #             elif option2 is None and option1 is not None:
-    #                 return option1
-    #             elif option1 is None and option2 is None:
-    #                 return None
-    #             elif option1[1] > option2[1]:
-    #                 return option1
-    #             else:
-    #                 return option2
-    #         else:
-    #             total = 0
-    #             benefits = 0
-    #             for action in selection:
-    #                 cost = action.cost
-    #                 rate = action.profit
-    #                 total = total + cost
-    #                 benefits = benefits + (cost * rate)/100
-    #             # print("total, benefits, selection",total, benefits, selection)
-    #             if total <= 500:
-    #                 return (total, benefits, selection)
-    #             else:
-    #                 return None
-    def OptimizedBruteForce(self, actions):
-
-        combinaisons = []
-
-        # wallet = 500
-        # matrice = [capacity for capacity in range(wallet + 1)]
-        # for capacity in matrice: 
-        #     # print("capacity :", capacity)
-        #     combinaisons.append(capacity)
-        #     for action in actions:
-        #         if action.cost <= capacity:
-        #             # print((action.name,action.cost))
-        #             combinaisons.append([capacity, (action.name, action.cost)])
-        # print(combinaisons)
-
-        actions = [("A", 1), ("B", 5), ("C", 2), ("D", 3)]
-        wallet = 5
-        matrice = [capacity for capacity in range(wallet + 1)]
-        for capacity in matrice: 
-            # print("capacity :", capacity)
-            for action in actions:
-                if action[1] <= capacity:
-                    liste = action[0],action[1]
-                    # print(liste)
-                    print([capacity , liste])
-                    combinaisons.append([capacity , liste])
-        print(combinaisons)
+        # return element by sum of them
+        # we browse reverse the matrice for find the keeped elements 
+        n = len(actions)
+        action_selection = []
+        # while there is money in wallet and actions
+        while wallet >= 0 and n >= 0:
+            # take the last action in list
+            last_action = actions[n-1]
+            # calcul the difference between two last lines to find selected elements
+            if matrice[n][int(wallet)] == matrice[n-1][int(wallet - last_action.cost)] + int(last_action.profit):
+                action_selection.append(last_action)
+                wallet-= last_action.cost
+            n -= 1
+        total_cost = 0
+        action_format = []
+        for action in action_selection:
+            # generate cost value
+            total_cost += action.cost
+            # format action selection value
+            action_format.append((action.name, action.cost, action.profit))
+        return [action_format, total_cost, matrice[-1][-1]]
