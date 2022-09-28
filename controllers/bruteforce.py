@@ -13,7 +13,7 @@ class BruteForce:
         '''Extracting datas from actions csv data folder
            converting in Action objects and return them.'''
         with open('datas/actions.csv', newline='') as csvfile:
-            reader = csv.reader(csvfile, delimiter=';')
+            reader = csv.reader(csvfile, delimiter=',')
             # skip the header
             next(reader, None)
             for action in reader:

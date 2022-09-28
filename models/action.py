@@ -5,8 +5,8 @@ class Action:
 
     def __init__(self, name="", cost=0, profit=0):
         self.name = name
-        self.cost = float(cost)
-        self.profit = float(profit)
+        self.cost = int(float(cost) * 100)
+        self.profit = int(float(profit) * 100)
 
     # Getters
 

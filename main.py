@@ -1,6 +1,6 @@
 '''Entry point'''
 
-# from controllers.bruteforce import BruteForce
+from controllers.bruteforce import BruteForce
 from controllers.optimized import Optimized
 from views.view import View
 import time
@@ -17,6 +17,7 @@ def main():
 
     # optimized version
     controller = Optimized()
+    # data = controller.recordActions()
     start = time.time()
     resultat = controller.OptimizedBruteForce(500, controller.recordActions())
     end = time.time()
