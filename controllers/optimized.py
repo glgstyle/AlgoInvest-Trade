@@ -64,7 +64,7 @@ class Optimized:
             # calcul the difference between two last lines to find selected elements
             if matrice[n][wallet] == matrice[n-1][wallet - last_action.cost] + last_action.profit:
                 action_selection.append(last_action)
-                wallet-= last_action.cost
+                wallet -= last_action.cost
             n -= 1
         total_cost = 0
         for action in action_selection:
