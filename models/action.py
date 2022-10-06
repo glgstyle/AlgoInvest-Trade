@@ -3,10 +3,16 @@
 
 class Action:
 
-    def __init__(self, name="", cost=0, profit=0):
+    def __init__(self, name="", cost=0, profit=0, is_preprocessed=False):
         self.name = name
-        self.cost = int(float(cost) * 100)
-        self.profit = int(float(profit) * 100)
+        # used for optimized algorithm
+        if is_preprocessed:
+            self.cost = int(float(cost) * 100)
+            self.profit = int(float(profit) * 100)
+        # used for bruteforce algorithm
+        else:
+            self.cost = float(cost)
+            self.profit = float(profit)
 
     # Getters
 

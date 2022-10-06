@@ -49,7 +49,6 @@ class BruteForce:
                 rate = action.profit
                 total = total + cost
                 benefits = benefits + (cost * rate)/100
-            # print("total, benefits, selection",total, benefits, selection)
             if total <= 500:
                 return (total, benefits, selection)
             else:

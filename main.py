@@ -18,16 +18,14 @@ def main():
 
     # optimized version
     controller = Optimized()
-    tracemalloc.start()
+    # tracemalloc.start()
     start = time.time()
-    resultat = controller.OptimizedBruteForce(500, controller.recordActions())
+    actions = controller.recordActions()
+    resultat = controller.OptimizedBruteForce(500, actions)
     end = time.time()
     View.showTimeOfExecution(start, end)
     View.showThebestActionsCombo(resultat)
-snapshot = tracemalloc.take_snapshot()
-for stat in snapshot.statistics('lineno'):
-    print(stat)
-    print(stat.traceback.format())
+    # print(tracemalloc.get_traced_memory())
     
 
 if __name__ == "__main__":

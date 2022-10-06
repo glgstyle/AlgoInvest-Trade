@@ -20,3 +20,8 @@ Share-ROOM 1506
 
 Total cost: 489.24â‚¬
 Profit: 193.78â‚¬
+
+
+moi:
+ Pour un total de : 499.9 €
+ Et un profit de : 197.94990400000003 €
