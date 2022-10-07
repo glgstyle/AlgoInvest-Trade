@@ -1,9 +1,11 @@
 '''The optimized version of brute brute force controller'''
 
-from telnetlib import STATUS
 from models.action import Action
 import csv
-
+from views.view import View
+import time
+import sys
+import os
 
 class Optimized:
     def __init__(self):
@@ -13,22 +15,24 @@ class Optimized:
     def recordActions(self):
         '''Extracting datas from actions csv data folder
            converting in Action objects and return them.'''
-        with open('datas/dataset1_Python+P7.csv', newline='') as csvfile:
-        # with open('datas/dataset2_Python+P7.csv', newline='') as csvfile:
-        # with open('datas/actions.csv', newline='') as csvfile:
-            reader = csv.reader(csvfile, delimiter=',')
-            # skip the header
-            next(reader, None)
-            for action in reader:
-                if len(action) == 3:
-                    name = action[0]
-                    # print(name)
-                    cost = action[1]
-                    profit = action[2] 
-                    act = Action(name, cost, profit, True)
-                    if act.cost > 0 and act.profit > 0:
-                        self.actions.append(act)
-            return self.actions
+        path = sys.argv[1]
+        if os.path.exists(path):
+            with open(path, newline='') as csvfile:
+                reader = csv.reader(csvfile, delimiter=',')
+                # skip the header
+                next(reader, None)
+                for action in reader:
+                    if len(action) == 3:
+                        name = action[0]
+                        # print(name)
+                        cost = action[1]
+                        profit = action[2] 
+                        act = Action(name, cost, profit, True)
+                        if act.cost > 0 and act.profit > 0:
+                            self.actions.append(act)
+                return self.actions
+        else:
+            print("La commande que vous avez tappé est incorrecte veuillez recommencer")
 
     def OptimizedBruteForce(self, wallet, actions):
         # convert float value to int
@@ -64,3 +68,11 @@ class Optimized:
         total_cost = sum( [ action_selection[x].cost/100 for x in range(len(action_selection))] )
         benefits = sum( [ action_selection[x].profit/100 for x in range(len(action_selection))] )
         return [total_cost, benefits, action_selection]
+
+controller = Optimized()
+start = time.time()
+actions = controller.recordActions()
+resultat = controller.OptimizedBruteForce(500, actions)
+end = time.time()
+View.showTimeOfExecution(start, end)
+View.showThebestActionsCombo(resultat)

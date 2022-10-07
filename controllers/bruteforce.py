@@ -2,6 +2,10 @@
 
 from models.action import Action
 import csv
+from views.view import View
+import time
+import sys
+import os
 
 
 class BruteForce:
@@ -12,17 +16,21 @@ class BruteForce:
     def recordActions(self):
         '''Extracting datas from actions csv data folder
            converting in Action objects and return them.'''
-        with open('datas/actions.csv', newline='') as csvfile:
-            reader = csv.reader(csvfile, delimiter=',')
-            # skip the header
-            next(reader, None)
-            for action in reader:
-                name = action[0]
-                cost = action[1]
-                profit = action[2].replace("%", "")
-                act = Action(name, int(cost), int(profit))
-                self.actions.append(act)
-            return self.actions
+        path = sys.argv[1]
+        if os.path.exists(path):
+            with open(path, newline='') as csvfile:
+                reader = csv.reader(csvfile, delimiter=',')
+                # skip the header
+                next(reader, None)
+                for action in reader:
+                    name = action[0]
+                    cost = action[1]
+                    profit = action[2].replace("%", "")
+                    act = Action(name, cost, profit, False)
+                    self.actions.append(act)
+                return self.actions
+        else:
+            print("La commande que vous avez tappé est incorrecte veuillez recommencer")
 
     def bruteForce(self, actions, selection=[]):
         """Look for all combinations of actions and choose
@@ -53,3 +61,11 @@ class BruteForce:
                 return (total, benefits, selection)
             else:
                 return None
+
+
+controller = BruteForce()
+start = time.time()
+resultat = controller.bruteForce(controller.recordActions())
+end = time.time()
+View.showTimeOfExecution(start, end)
+View.showThebestActionsCombo(resultat)

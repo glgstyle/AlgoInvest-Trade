@@ -46,7 +46,25 @@ AlgoInvest&Trade est un programme qui permet d'optimiser des stratégies d'inves
 # Utilisation
 
 - Pour démarrer le programme, exécutez simplement la commande suivante :
-
-   ```python main.py```
-
+    ```python leNomDuFichier.py suivi du fichier csv à traiter```
 - Pour valider chaque commande dans le terminal appuyez sur la touche  entrée 
+
+## Utilisation de l'algorithme bruteForce :
+- Dans le terminal écrire la ligne de commande python bruteforce.py suivi du chemin du fichier csv, exemple :  
+    - Pour le dossier actions.csv:
+    ```python controllers/bruteforce.py datas/actions.csv```
+    - Pour le dossier dataset1_Python+P7.csv:
+    ```python controllers/bruteforce.py datas/dataset1_Python+P7.csv```
+    - Pour le dossier datas/dataset2_Python+P7.csv:
+    ```python controllers/bruteforce.py datas/dataset2_Python+P7.csv```
+
+## Utilisation de l'algorithme optimisé :
+- Dans le terminal écrire la ligne de commande python bruteforce.py suivi du chemin du fichier csv, exemple :  
+    - Pour le dossier actions.csv:
+    ```python controllers/optimized.py datas/actions.csv```
+    - Pour le dossier dataset1_Python+P7.csv:
+    ```python controllers/optimized.py datas/dataset1_Python+P7.csv```
+    - Pour le dossier datas/dataset2_Python+P7.csv:
+    ```python controllers/optimized.py datas/dataset2_Python+P7.csv```
+
+
