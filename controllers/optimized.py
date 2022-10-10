@@ -41,7 +41,7 @@ class Optimized:
         matrice = [[0 for x in range(wallet + 1)] for x in range(len(actions) + 1)]
         # browse actions
         for i in actions:
-            i.profit = (i.cost * i.profit/100) / 100
+            i.profit = (i.cost * i.profit/100) / 10000
         for row in range(1, len(actions) + 1):
             for capacity in range(1, wallet + 1):# browse amount wallet  1 2 3 4 5 6 7 8 9 10 jusqu'à 500
                 # keep the max cost/profit value if it's lower to the wallet
@@ -65,8 +65,10 @@ class Optimized:
                 action_selection.append(last_action)
                 wallet -= last_action.cost
             n -= 1
-        total_cost = sum( [ action_selection[x].cost/100 for x in range(len(action_selection))] )
-        benefits = sum( [ action_selection[x].profit/100 for x in range(len(action_selection))] )
+        for action in action_selection:
+            action.cost=action.cost/100 
+        total_cost = sum( [ action_selection[x].cost for x in range(len(action_selection))] )
+        benefits = sum( [ action_selection[x].profit for x in range(len(action_selection))] )
         return [total_cost, benefits, action_selection]
 
 controller = Optimized()
